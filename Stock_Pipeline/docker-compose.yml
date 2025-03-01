@@ -34,6 +34,19 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
 
   # PySpark
   pyspark:
@@ -55,7 +68,7 @@ services:
     ports:
       - "8088:8088"
     environment:
-      SUPERSET_SECRET_KEY: "your_secret_key"
+      SUPERSET_SECRET_KEY: "this_is_a_very_secret_key_1234567890"
       SUPERSET_LOAD_EXAMPLES: "no"
     volumes:
       - superset_data:/app/superset_home
@@ -66,6 +79,7 @@ services:
 volumes:
   postgres_data:
   superset_data:
+  pgadmin_data:
 
 # Network for communication
 networks:
